@@ -1,6 +1,6 @@
 # Simurgh-local
 Simurgh is a local ChEMBL molecule retriever that lets you search for compounds based on mode of action and clinical phase. Super handy for quickly finding relevant molecules without relying on online platforms.
-![Capture d’écran_2025-06-28_14-22-25](https://github.com/user-attachments/assets/d934f671-8336-4a19-bd93-7fb7fb79e106)
+<img src="https://github.com/user-attachments/assets/d934f671-8336-4a19-bd93-7fb7fb79e106" alt="Capture d’écran_2025-06-28_14-22-25" width="50%">
 
 Search results are saved as CSV files. You can find them in the right-hand menu on the main page. Clicking on a file opens a dedicated visualization page.
 
@@ -38,5 +38,5 @@ Simurgh is pretty easy to install , the only requirement is to have Conda instal
 
 3. Finally, click on the `localhost` address shown in your terminal, and you’re good to go !
 
-![46f18edf044ba5d81976802ae1c07b8f](https://github.com/user-attachments/assets/3c4ef552-ce26-4cb6-ae84-04a887da30b0)
 
+<img src="https://github.com/user-attachments/assets/3c4ef552-ce26-4cb6-ae84-04a887da30b0" alt="46f18edf044ba5d81976802ae1c07b8f" width="33%">
