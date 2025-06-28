@@ -10,7 +10,7 @@ Settings.Instance().cache_enabled = True
 from chembl_webresource_client.new_client import new_client
 
 app = Flask(__name__)
-app.secret_key = ''
+app.secret_key = 'ill care later'
 UPLOAD_FOLDER = 'csv_files' 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
