@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simurgh - Retrieval</title> 
+    <link rel="icon" href="{{ url_for('static', filename='simurgh-logo.png') }}" type="image/png"> 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding-top: 20px;
+            background: linear-gradient(to bottom right, #f0f8ff, #e0eafc); 
+            min-height: 100vh; 
+            font-family: 'Inter', sans-serif; 
+            color: #343a40; 
+        }
+        .container-fluid {
+            max-width: 1200px;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15); 
+            background-color: #ffffff; 
+            padding-bottom: 30px;
+            padding-top: 30px; 
+            transition: box-shadow 0.3s ease-in-out; 
+        }
+        .container-fluid:hover {
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2); 
+        }
+
+        h1, h2 {
+            font-family: 'Inter', sans-serif; 
+            color: #2c3e50; 
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.05); 
+            letter-spacing: 0.5px; 
+            font-weight: 700; 
+        }
+        h1 {
+            font-size: 2.5rem;
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            flex-wrap: wrap; 
+        }
+        h1 span {
+            display: inline-block; 
+        }
+        .simurgh-title-logo {
+            height: 3.5rem; 
+            vertical-align: middle; 
+            margin-right: 15px; 
+            filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.1));
+        }
+        h2 {
+            font-size: 1.8rem;
+        }
+
+        .alert {
+            margin-top: 15px;
+            border-radius: 8px; 
+        }
+        .alert-success { background-color: #d4edda; border-color: #c3e6cb; color: #155724; }
+        .alert-info { background-color: #d1ecf1; border-color: #bee5eb; color: #0c5460; }
+        .alert-danger { background-color: #f8d7da; border-color: #f5c6cb; color: #721c24; }
+
+        hr {
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .csv-button-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .csv-button-list li {
+            margin-bottom: 10px;
+        }
+        .csv-button {
+            width: 100%;
+            padding: 12px 15px; 
+            font-size: 1.05rem; 
+            text-align: left;
+            background-color: #f0f8ff; 
+            border: 1px solid hsl(211, 100%, 90%); 
+            border-radius: 8px; 
+            cursor: pointer;
+            transition: all 0.3s ease; 
+            color: #0056b3; 
+            text-decoration: none;
+            display: flex; 
+            align-items: center;
+            justify-content: space-between; 
+            word-wrap: break-word;
+        }
+        .csv-button:hover {
+            background-color: #e0f0ff; 
+            border-color: #99ccff; 
+            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.2); 
+            color: #004085; 
+            transform: translateY(-2px); 
+        }
+        .csv-button:active {
+            background-color: #c0e0ff;
+            border-color: #66b3ff;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.2);
+            transform: translateY(0); 
+        }
+
+        .form-control {
+            border-radius: 8px; 
+            border: 1px solid #b3d9ff;
+            transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        .form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
+        }
+        .form-label {
+            font-weight: 600; 
+            color: #2c3e50; 
+        }
+        .btn-success {
+            background: linear-gradient(to right, #28a745, #218838); 
+            border: none; 
+            color: white;
+            transition: all 0.3s ease;
+            border-radius: 8px; 
+            padding: 10px 20px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 10px rgba(40, 167, 69, 0.3);
+        }
+        .btn-success:hover {
+            background: linear-gradient(to right, #218838, #1e7e34); 
+            box-shadow: 0 6px 15px rgba(40, 167, 69, 0.4);
+            transform: translateY(-2px); 
+        }
+        .btn-success:active {
+            transform: translateY(0); 
+        }
+
+        
+        .chembl-promo {
+            text-align: center;
+            margin-top: 50px; 
+            padding: 30px; 
+            background-color: #e0f8ff; 
+            border-radius: 15px; 
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            border: 1px solid #cce5ff;
+            transition: box-shadow 0.3s ease-in-out; 
+        }
+        .chembl-promo:hover {
+            box-shadow: 0 8px 30px rgba(0,0,0,0.2); 
+        }
+        .chembl-logo {
+            max-width: 180px; 
+            height: auto;
+            margin-bottom: 20px; 
+            filter: drop-shadow(2px 2px 5px rgba(0,0,0,0.1)); 
+            transition: transform 0.3s ease, filter 0.3s ease;
+        }
+        .chembl-logo:hover {
+            transform: scale(1.08); 
+            filter: drop-shadow(3px 3px 8px rgba(0,0,0,0.2));
+        }
+        .chembl-link {
+            font-size: 1.2rem; 
+            font-weight: 700; 
+            color: #007bff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .chembl-link:hover {
+            color: #0056b3;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <h1 class="mb-4 text-center">
+            <img src="{{ url_for('static', filename='simurgh-logo.png') }}" onerror="this.onerror=null;this.src='https://placehold.co/48x48/007bff/ffffff?text=S';" alt="Simurgh Logo" class="simurgh-title-logo">
+            <span>Simurgh: ChEMBL Local Molecule Retriever</span>
+        </h1>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="messages row justify-content-center">
+                    <div class="col-md-10">
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ 'danger' if category == 'error' else 'success' if category == 'success' else 'info' }}" role="alert">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <div class="row mt-4">
+            <div class="col-md-8">
+                <hr>
+                <h2 class="mt-4">Configure and Launch Molecule Retrieval</h2>
+                <form action="/fetch_and_save_molecules" method="post" class="mb-4">
+                    <div class="mb-3">
+                        <label for="target_id" class="form-label">ChEMBL Target ID </label>
+                        <input type="text" class="form-control" id="target_id" name="target_id" required pattern="[A-Za-z0-9]+" title="Only letters and numbers are allowed, no spaces." placeholder="Ex: CHEMBL239">
+                        <small class="form-text text-muted">Finding the good target ID can be really hard and challenging. I strongly recommend using a tool such as Perplexity to find the common chembl ID.</small>
+                    </div>
+                    <div class="mb-3">
+                        <label for="min_phase" class="form-label">Minimum Phase (0-4)</label>
+                        <input type="number" class="form-control" id="min_phase" name="min_phase" min="0" max="4" value="1" required>
+                        <small class="form-text text-muted">0 for all phases, 4 for approved molecules.</small>
+                    </div>
+                    <div class="mb-3">
+                        <label for="action_type" class="form-label">Action Type (optional)</label>
+                        <select class="form-select" id="action_type" name="action_type">
+                            {% for type in action_types %}
+                                <option value="{{ type }}">{{ type }}</option>
+                            {% endfor %}
+                        </select>
+                        <small class="form-text text-muted">Leave 'ALL' to not filter by action type.</small>
+                    </div>
+                    <button type="submit" class="btn btn-success">Launch Retrieval and Save CSV</button>
+                </form>
+            </div>
+
+            <div class="col-md-4">
+                <hr class="d-md-none">
+                <h2 class="mt-4">Generated ChEMBL CSV Files</h2>
+                <ul class="csv-button-list">
+                    {% if csv_files %}
+                        {% for filename in csv_files %}
+                            <li>
+                                <a href="{{ url_for('view_csv', filename=filename) }}" class="csv-button" title="Click to visualize: {{ filename }}">
+                                    {{ filename }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    {% else %}
+                        <li>No CSV files generated yet.</li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+
+        <hr class="mt-5">
+
+        <div class="chembl-promo">
+            <h2 class="mb-3">Powered by ChEMBL</h2>
+            <a href="https://www.ebi.ac.uk/chembl/" target="_blank" class="chembl-link" title="Visit ChEMBL Website">
+                <img src="{{ url_for('static', filename='chembl_logo.png') }}" onerror="this.onerror=null;this.src='https://imgs.search.brave.com/0iz5uZ1v8yv6x8sY4pBaDkec2sPze35lnfzZ5UTvNlI/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly91cGxv/YWQud2lraW1lZGlh/Lm9yZy93aWtpcGVk/aWEvY29tbW9ucy9h/L2ExL0NoZW1ibF9s/b2dvLnBuZw';" alt="ChEMBL Logo" class="chembl-logo">
+                <p>Explore the ChEMBL Database</p>
+            </a>
+            <small class="text-muted">A large-scale drug discovery resource.</small>
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script> </body>
+</html>
