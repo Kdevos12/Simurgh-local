@@ -1,5 +1,5 @@
 # Simurgh-local
-Simurgh is a local ChEMBL molecule retriever that lets you search for compounds based on mode of action and clinical phase. Super handy for quickly finding relevant molecules without relying on online platforms.
+Simurgh is a local ChEMBL molecule retriever that lets you search for compounds based on mode of action and clinical phase. Super handy for quickly finding relevant molecules.
 <img src="https://github.com/user-attachments/assets/d934f671-8336-4a19-bd93-7fb7fb79e106" alt="Capture d’écran_2025-06-28_14-22-25" width="50%">
 
 Search results are saved as CSV files. You can find them in the right-hand menu on the main page. Clicking on a file opens a dedicated visualization page.
